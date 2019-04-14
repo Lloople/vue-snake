@@ -1,16 +1,16 @@
 <template>
-<div style="width: 1100px; margin: 0 auto;">
-    <div class="clearfix" v-for="x in width" :key="x">
-      <div v-for="y in height" :key="y">
-          <tile :x="x" :y="y"/>
+  <div style="width: 1100px; margin: 0 auto;">
+      <div class="clearfix" v-for="x in width" :key="x">
+        <div v-for="y in height" :key="y">
+            <tile :x="x" :y="y" :snakeClass="guessContent(x, y)"/>
+        </div>
       </div>
-  
-    </div>
-</div>
+  </div>
 </template>
 
 <script>
 import Tile from './Tile.vue';
+import SNAKE from './../config/snake.js';
 
 export default {
 
@@ -24,16 +24,28 @@ export default {
   },
   data() {
     return {
-      tiles: [],
-      headPosition: "12,12",
+      direction: SNAKE.DIRECTION_LEFT,
+      snake: [
+        [3, 4],
+        [3, 5],
+        [3, 6],
+        [4, 6],
+        [5, 6]
+      ]
     }
   },
   methods: {
     advance() {
-      let destination = this.tiles[headPosition].getNextCoordinate();
-    
-      this.tiles[destination].moveIn(this.tiles[headPosition].content);
-      this.tiles[headPosition].moveOut();
+    },
+    guessContent(x, y) {
+      this.snake.forEach((part, index) => {
+        if (part[0] === x && part[1] === y) {
+          
+          return index === 0 ? SNAKE.HEAD : SNAKE.BODY;
+        }
+      });
+
+      return SNAKE.NONE;
     }
   },
   mounted() {

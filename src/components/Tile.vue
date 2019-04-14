@@ -1,47 +1,39 @@
 <template>
-    <div :class="{ body: isBody, head : isHead }">
-        {{ direction }}
+    <div :class="snakeClass">
+        {{ directionEmoji }}
     </div>
 </template>
 
 <script>
-import EmptyTile from './../models/EmptyTile.js';
-import SnakeHead from './../models/SnakeHead.js';
-import SnakeBody from './../models/SnakeBody.js';
-
+import SNAKE from './../config/snake.js';
 
 export default {
     name: 'Tile',
     props: {
         x: Number,
         y: Number,
-        content: Object
+        snakeClass: String,
+        direction: String,
     },
     computed: {
-        isBody: function () {
-            return this.content instanceof SnakeBody;
-        },
-        isHead: function () {
-            return this.content instanceof SnakeHead;
-        },
-        direction: function () {
-            if (! this.isHead) {
-                return '';
+        directionEmoji() {
+            if (this.direction === SNAKE.DIRECTION_UP) {
+                return '🔼';
             }
 
-            return this.content.getDirection();
+            if (this.direction === SNAKE.DIRECTION_DOWN) {
+                return '🔽';
+            }
 
-        }
-    },
-    methods: {
-        isCollision(x, y) {
-            return this.hasSnake && this.x === x && this.y === y;
-        },
-        moveIn(bodyPart) {
-            this.content = bodyPart;
-        },
-        moveOut() {
-            this.content = new EmptyTile();
+            if (this.direction === SNAKE.DIRECTION_LEFT) {
+                return '⬅️';
+            }
+
+            if (this.direction === SNAKE.DIRECTION_RIGHT) {
+                return '➡️'
+            }
+
+            return '';
         }
     }
 }
