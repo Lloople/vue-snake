@@ -1,9 +1,10 @@
 <template>
-  <div style="width: 1100px; margin: 0 auto;">
-      <div class="clearfix" v-for="x in width" :key="x">
-        <div v-for="y in height" :key="y">
-            <tile :x="x" :y="y" :snakeClass="guessContent(x, y)"/>
-        </div>
+  <div style="width: 600px; margin: 0 auto; text-align: center;">
+      <div v-for="(value, index) in tiles" :key="index">
+
+        <tile :tile="value" :cords="index"/>
+        <div v-if="isEndOfRow(index)" class="clearfix"></div>
+
       </div>
   </div>
 </template>
@@ -24,34 +25,67 @@ export default {
   },
   data() {
     return {
-      direction: SNAKE.DIRECTION_LEFT,
-      snake: [
-        [3, 4],
-        [3, 5],
-        [3, 6],
-        [4, 6],
-        [5, 6]
+      tiles: {},
+      direction: SNAKE.DIRECTION_RIGHT,
+      snakeHead: '3,8',
+      snakeBody: [
+        '3,7',
+        '3,6',
+        '3,5',
+        '4,5',
+        '5,5'
       ]
     }
   },
   methods: {
-    advance() {
+    isEndOfRow(cords) {
+      return cords.match(new RegExp('.*,'+(this.width - 1), 'g')) !== null;
     },
-    guessContent(x, y) {
-      this.snake.forEach((part, index) => {
-        if (part[0] === x && part[1] === y) {
-          
-          return index === 0 ? SNAKE.HEAD : SNAKE.BODY;
-        }
-      });
+    move() {
+      this.snakeHead = this.movePart(this.snakeHead, this.direction);
+      // TODO: No està refrescant la posició del cap, per què? Crec que és perquè les tiles no són una computada
+      // i no s'estan llegint constantment? Ni idea...
 
-      return SNAKE.NONE;
+    },
+    movePart(cords, direction) {
+      let coordinates = cords.split(',');
+
+      if (direction === SNAKE.DIRECTION_UP) {
+        coordinates[0]--;
+      }
+
+      if (direction === SNAKE.DIRECTION_DOWN) {
+        coordinates[0]++;
+      }
+
+      if (direction === SNAKE.DIRECTION_LEFT) {
+        coordinates[1]--;
+      }
+
+      if (direction === SNAKE.DIRECTION_RIGHT) {
+        coordinates[1]++;
+      }
+
+      return coordinates.join(',');
     }
   },
+  created() {
+    [...Array(this.width).keys()].forEach(x => {
+      [...Array(this.height).keys()].forEach(y => {
+        this.tiles[x+','+y] = SNAKE.NONE;
+      });
+    });
+  },
   mounted() {
-      // TODO: Hi ha molt de merder, perquè no tinc els tiles en un array
-      // sinó que estàn directament al Vue, i els necessitaria tenir 
-      // guardats a més per clau-valor per poder canviar el seu contingut
+    let tiles = this.tiles;
+    
+    tiles[this.snakeHead] = SNAKE.HEAD;
+
+    this.snakeBody.forEach(bodyPart => {
+      tiles[bodyPart] = SNAKE.BODY;
+    });
+
+    this.tiles = Object.assign({}, tiles);
   }
 }
 </script>

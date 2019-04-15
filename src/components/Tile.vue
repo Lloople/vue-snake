@@ -1,6 +1,6 @@
 <template>
-    <div :class="snakeClass">
-        {{ directionEmoji }}
+    <div :class="{ head: isHead, body : isBody, none : ! isHead && ! isBody}">
+
     </div>
 </template>
 
@@ -10,39 +10,26 @@ import SNAKE from './../config/snake.js';
 export default {
     name: 'Tile',
     props: {
-        x: Number,
-        y: Number,
-        snakeClass: String,
-        direction: String,
+        tile: Number,
+        cords: String
     },
     computed: {
-        directionEmoji() {
-            if (this.direction === SNAKE.DIRECTION_UP) {
-                return '🔼';
-            }
-
-            if (this.direction === SNAKE.DIRECTION_DOWN) {
-                return '🔽';
-            }
-
-            if (this.direction === SNAKE.DIRECTION_LEFT) {
-                return '⬅️';
-            }
-
-            if (this.direction === SNAKE.DIRECTION_RIGHT) {
-                return '➡️'
-            }
-
-            return '';
+        isHead() {
+            return this.tile === SNAKE.HEAD;
+        },
+        isBody() {
+            return this.tile === SNAKE.BODY
         }
+    },
+    mounted() {
     }
 }
 </script>
 
 <style scoped>
 div {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     float: left;
     background: grey;
     margin: 1px;

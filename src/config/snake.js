@@ -1,7 +1,7 @@
 export default Object.freeze({
-    HEAD: 'head',
-    BODY: 'body',
-    NONE: 'none',
+    HEAD: 2,
+    BODY: 1,
+    NONE: 0,
     DIRECTION_UP: 'up',
     DIRECTION_DOWN: 'down',
     DIRECTION_LEFT: 'left',
