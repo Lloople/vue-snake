@@ -1,17 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>snake</title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but snake doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+        <style>
+            .btn {
+                cursor: pointer;
+                box-shadow: 0px 4px rgba(0, 0, 0, 0.2);
+                text-align: center;
+                /* so nobody selects the inside text on button */
+                user-select: none;
+                /* Smoothing out hover using css3 transitions, if not, the pressed button effect looks a bit hard */
+                transition: all 0.2s ease;
+            }
+        </style>
+        <title>snake</title>
+    </head>
+
+    <body>
+        <noscript>
+            <strong>We're sorry but snake doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+        </noscript>
+        <div id="app"></div>
+        <!-- built files will be auto injected -->
+    </body>
+
 </html>
