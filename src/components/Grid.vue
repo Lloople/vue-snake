@@ -42,10 +42,41 @@ export default {
       return cords.match(new RegExp('.*,'+(this.width - 1), 'g')) !== null;
     },
     move() {
-      this.snakeHead = this.movePart(this.snakeHead, this.direction);
+      this.cleanSnake();
+
+      this.moveHead();
+
+      let previousCords = this.snakeHead;
+      this.snakeBody.forEach(cords => {
+        let direction = this.guessDirectionFrom(previousCords, cords);
+        let newCords = this.movePart(cords, direction);
+        this.tiles[newCords] = SNAKE.BODY;
+        previousCords = newCords;
+      });
+
       // TODO: No està refrescant la posició del cap, per què? Crec que és perquè les tiles no són una computada
       // i no s'estan llegint constantment? Ni idea...
 
+    },
+    guessDirectionFrom(from, to) {
+      from = from.split(',');
+      to = to.split(',');
+
+      if (to[0] < from[0]) {
+        return SNAKE.DIRECTION_UP;
+      }
+
+      if (to[0] > from[0]) {
+        return SNAKE.DIRECTION_DOWN;
+      }
+
+      if (to[1] < from[1]) {
+        return SNAKE.DIRECTION_LEFT;
+      }
+      
+      if (to[1] > from[1]) {
+        return SNAKE.DIRECTION_RIGHT;
+      }
     },
     movePart(cords, direction) {
       let coordinates = cords.split(',');
@@ -67,7 +98,19 @@ export default {
       }
 
       return coordinates.join(',');
-    }
+    },
+    moveHead() {
+      this.snakeHead = this.movePart(this.snakeHead, this.direction);
+
+      this.tiles[this.snakeHead] = SNAKE.HEAD;
+    },
+    cleanSnake() {
+      this.tiles[this.snakeHead] = SNAKE.NONE;
+
+      this.snakeBody.forEach(bodyPart => {
+        this.tiles[bodyPart] = SNAKE.NONE;
+      });
+    },
   },
   created() {
     [...Array(this.width).keys()].forEach(x => {
@@ -77,12 +120,13 @@ export default {
     });
   },
   mounted() {
+    // TODO: Check this in a future, why I need to clone the object? 🤔
     let tiles = this.tiles;
     
     tiles[this.snakeHead] = SNAKE.HEAD;
 
     this.snakeBody.forEach(bodyPart => {
-      tiles[bodyPart] = SNAKE.BODY;
+      this.tiles[bodyPart] = SNAKE.BODY;
     });
 
     this.tiles = Object.assign({}, tiles);
