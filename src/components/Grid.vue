@@ -17,6 +17,7 @@
 <script>
 import Tile from "./Tile.vue";
 import SNAKE from "./../config/snake.js";
+import KEYS from "./../config/keys.js";
 
 export default {
 	name: "Grid",
@@ -53,6 +54,8 @@ export default {
 				return;
 			}
 
+			this.placeRandomFood();
+
 			let counter = 0;
 
 			this.gameRunning = setInterval(() => {
@@ -68,6 +71,8 @@ export default {
 
 			this.snakeHead = this.guessHeadNewPosition();
 
+			this.eat();
+
 			this.tiles[this.snakeHead] = SNAKE.HEAD;
 
 			this.snakeBody = this.snakeBody.map(cords => {
@@ -79,6 +84,27 @@ export default {
 
 				return newCords;
 			});
+		},
+		eat() {
+			if (this.tiles[this.snakeHead] !== SNAKE.FOOD) {
+				return;
+			}
+
+			this.snakeBody.push = this.newBodyCords();
+
+			this.placeRandomFood();
+		},
+		placeRandomFood() {
+			let randomCords = [
+				Math.floor(Math.random() * (this.width - 1)),
+				Math.floor(Math.random() * (this.height - 1))
+			].join(",");
+
+			if (this.tiles[randomCords] !== SNAKE.NONE) {
+				randomCords = this.placeRandomFood();
+			}
+
+			this.tiles[randomCords] = SNAKE.FOOD;
 		},
 		newBodyCords() {
 			let coordinates = this.snakeBody[this.snakeBody.length - 1].split(

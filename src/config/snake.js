@@ -1,4 +1,5 @@
 export default Object.freeze({
+    FOOD: 3,
     HEAD: 2,
     BODY: 1,
     NONE: 0,

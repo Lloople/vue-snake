@@ -1,5 +1,5 @@
 <template>
-	<div :class='{ head: isHead, body : isBody, none : ! isHead && ! isBody}'></div>
+	<div :class='{ head: isHead, body : isBody, food : isFood }'></div>
 </template>
 
 <script>
@@ -17,7 +17,10 @@ export default {
 		},
 		isBody() {
 			return this.tile === SNAKE.BODY;
-		}
+        },
+        isFood() {
+            return this.tile === SNAKE.FOOD;
+        }
 	}
 };
 </script>
@@ -37,5 +40,9 @@ div {
 
 .head {
 	background: red;
+}
+
+.food {
+    background: yellow;
 }
 </style>
