@@ -30,12 +30,22 @@ export default {
 	data() {
 		return {
 			gameRunning: null,
-			speed: 200,
-			tiles: {},
+			speed: 50,
+			tiles: this.resetGrid(),
 			direction: SNAKE.DIRECTION_RIGHT,
 			snakeHead: SNAKE.HEAD_START,
 			snakeBody: SNAKE.BODY_START
 		};
+	},
+	created() {
+		window.addEventListener("keyup", this.listenKeysPressed);
+
+		this.resetGrid();
+
+		this.resetSnake();
+	},
+	beforeDestroy() {
+		clearInterval(this.gameRunning);
 	},
 	methods: {
 		start() {
@@ -49,44 +59,49 @@ export default {
 				this.move();
 
 				counter++;
-
-				if (counter === 10) {
-					this.direction = SNAKE.DIRECTION_DOWN;
-				}
-
-				if (counter === 25) {
-					this.direction = SNAKE.DIRECTION_LEFT;
-				}
-
-				if (counter === 35) {
-					this.cleanSnake();
-
-					clearInterval(this.gameRunning);
-
-					this.gameRunning = null;
-
-					this.resetSnake();
-				}
 			}, this.speed);
 		},
 		move() {
 			this.cleanSnake();
 
-			let previousCords = this.snakeHead;
+			let nextBodyPosition = this.snakeHead;
 
 			this.snakeHead = this.guessHeadNewPosition();
 
 			this.tiles[this.snakeHead] = SNAKE.HEAD;
 
 			this.snakeBody = this.snakeBody.map(cords => {
-				this.tiles[previousCords] = SNAKE.BODY;
+				let newCords = nextBodyPosition;
 
-				let newCords = previousCords;
+				this.tiles[newCords] = SNAKE.BODY;
 
-				previousCords = cords;
+				nextBodyPosition = cords;
 
 				return newCords;
 			});
+		},
+		newBodyCords() {
+			let coordinates = this.snakeBody[this.snakeBody.length - 1].split(
+				","
+			);
+
+			if (this.direction === SNAKE.DIRECTION_UP) {
+				coordinates[0]++;
+			}
+
+			if (this.direction === SNAKE.DIRECTION_DOWN) {
+				coordinates[0]--;
+			}
+
+			if (this.direction === SNAKE.DIRECTION_LEFT) {
+				coordinates[1]++;
+			}
+
+			if (this.direction === SNAKE.DIRECTION_RIGHT) {
+				coordinates[1]--;
+			}
+
+			return coordinates.join(",");
 		},
 		guessHeadNewPosition() {
 			let coordinates = this.snakeHead.split(",");
@@ -124,24 +139,36 @@ export default {
 			});
 		},
 		resetGrid() {
+			let tiles = {};
 			[...Array(this.width).keys()].forEach(x => {
 				[...Array(this.height).keys()].forEach(y => {
-					this.tiles[x + "," + y] = SNAKE.NONE;
+					tiles[x + "," + y] = SNAKE.NONE;
 				});
 			});
-		}
-	},
-	created() {
-		this.resetGrid();
 
-		this.resetSnake();
-	},
-	mounted() {
-		// Why the f*** the code doesn't work without this line??
-		this.tiles = Object.assign({}, this.tiles);
-	},
-	beforeDestroy() {
-		clearInterval(this.gameRunning);
+			return tiles;
+		},
+		listenKeysPressed(e) {
+			if (e.keyCode === KEYS.UP && this.direction !== SNAKE.DIRECTION_DOWN) {
+				this.direction = SNAKE.DIRECTION_UP;
+			}
+
+			if (e.keyCode === KEYS.DOWN && this.direction !== SNAKE.DIRECTION_UP) {
+				this.direction = SNAKE.DIRECTION_DOWN;
+			}
+
+			if (e.keyCode === KEYS.LEFT && this.direction !== SNAKE.DIRECTION_RIGHT) {
+				this.direction = SNAKE.DIRECTION_LEFT;
+			}
+
+			if (e.keyCode === KEYS.RIGHT && this.direction !== SNAKE.DIRECTION_LEFT) {
+				this.direction = SNAKE.DIRECTION_RIGHT;
+			}
+
+			if (e.keyCode === KEYS.SPACE && ! this.gameRunning) {
+				this.start();
+			}
+		}
 	}
 };
 </script>
