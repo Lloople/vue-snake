@@ -1,29 +1,14 @@
-# snake
+# 🐍 Snake game built with Vue
 
-## Project setup
-```
-npm install
-```
+📚 Just for learning purposes.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+This is my first project wih Vue, so there will be a lot of code
+that can be done more efficiently. Please, feel free to create any 
+pull request you want 🙂
 
-### Compiles and minifies for production
-```
-npm run build
-```
+# Road Map
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- [ ] Add tests for the components
+- [ ] Add score board with local storage
+- [ ] Add Webpack, postCSS or whatever it's needed to add Tailwind
+- [ ] Center the board properly
