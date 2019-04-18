@@ -7,8 +7,8 @@
 		</div>
 		<div class="clearfix"></div>
 		<div class="panel">
-			<button v-on:click='start' class='btn'>
-				{{ gameRunning !== null ? 'PLAYING...' : 'START GAME' }}
+			<button v-on:click='start' class="btn" :class="{ 'btn-pressed' : gameRunning }">
+				PLAY
 			</button>
 			<h2>SCORE: {{ score }}</h2>
 			<h2 v-show="message !== null">{{ message }}</h2>
@@ -271,6 +271,13 @@ export default {
 		box-shadow: 0px 6px #e6c1a4;
 		user-select: none;
 		border: none;
+	}
+
+	.btn-pressed {
+		box-shadow: none;
+		background: #e6c1a4;
+		top: 6px;
+		position: relative;
 	}
 	h2 {
 		font-weight: normal;
