@@ -9,6 +9,6 @@ pull request you want 🙂
 # Road Map
 
 - [ ] Add tests for the components
-- [ ] Add score board with local storage
+- [ ] Add score board with local storage
 - [ ] Add Webpack, postCSS or whatever it's needed to add Tailwind
 - [ ] Center the board properly
