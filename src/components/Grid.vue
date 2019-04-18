@@ -7,10 +7,9 @@
 		</div>
 		<div class="clearfix"></div>
 		<div class="panel">
-			<button
-				v-on:click='start'
-				class='btn p-4 m-4 rounded-lg bg-green-light focus:outline-none'
-			>{{ gameRunning !== null ? 'PLAYING...' : 'START GAME' }}</button>
+			<button v-on:click='start' class='btn'>
+				{{ gameRunning !== null ? 'PLAYING...' : 'START GAME' }}
+			</button>
 			<h2>SCORE: {{ score }}</h2>
 			<h2 v-show="message !== null">{{ message }}</h2>
 		</div>
@@ -47,8 +46,6 @@ export default {
 	created() {
 		window.addEventListener("keyup", this.listenKeysPressed);
 
-		this.resetGrid();
-
 		this.resetSnake();
 	},
 	beforeDestroy() {
@@ -60,8 +57,7 @@ export default {
 				return;
 			}
 
-			this.cleanSnake();
-			this.cleanSnake();
+			this.resetSnake();
 
 			this.tiles[this.getFoodRandomCords()] = SNAKE.FOOD;
 
@@ -255,17 +251,28 @@ export default {
 		clear: left;
 	}
 	.container {
-		flex: content;
-		flex-direction: column;
-		align-content: center;
-		width: 600px;
-		margin: 0 auto;
+		margin: 0 auto 20px auto;
 		text-align: center;
-		margin-bottom: 20px;
 	}
 	.grid {
+		width: 450px;
 		text-align: center;
 		margin: 0 auto;
 		display: block;
+	}
+	.btn {
+		font-weight: bold;
+		font-size: 22px;
+		margin-top: 10px;
+		padding: 14px;
+		background: #ebd3c0;
+		border-radius: 4px;
+		cursor: pointer;
+		box-shadow: 0px 6px #e6c1a4;
+		user-select: none;
+		border: none;
+	}
+	h2 {
+		font-weight: normal;
 	}
 </style>

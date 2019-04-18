@@ -31,19 +31,19 @@ div {
 	height: 20px;
 	float: left;
 	background: rgb(196, 183, 183);
-	margin: 1px;
+	margin: 0.5px;
 	border-radius: 2px;
 }
 
 .body {
-	background: rgb(84, 84, 218);
+	background: rgb(76, 185, 109);
 }
 
 .head {
-	background: rgb(221, 91, 91);
+	background: rgb(16, 88, 22);
 }
 
 .food {
-    background: rgb(192, 152, 23);
+    background: rgb(187, 59, 27);
 }
 </style>
