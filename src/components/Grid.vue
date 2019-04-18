@@ -20,6 +20,7 @@
 import Tile from "./Tile.vue";
 import SNAKE from "./../config/snake.js";
 import KEYS from "./../config/keys.js";
+import DIRECTION from "./../config/direction.js";
 
 export default {
 	name: "Grid",
@@ -33,9 +34,9 @@ export default {
 	data() {
 		return {
 			gameRunning: null,
-			speed: 200,
+			speed: 500,
 			tiles: this.resetGrid(),
-			direction: SNAKE.DIRECTION_RIGHT,
+			direction: DIRECTION.RIGHT,
 			snakeHead: SNAKE.HEAD_START,
 			snakeBody: SNAKE.BODY_START,
 			score: 0,
@@ -143,19 +144,19 @@ export default {
 				","
 			);
 
-			if (this.direction === SNAKE.DIRECTION_UP) {
+			if (this.direction === DIRECTION.UP) {
 				coordinates[0]++;
 			}
 
-			if (this.direction === SNAKE.DIRECTION_DOWN) {
+			if (this.direction === DIRECTION.DOWN) {
 				coordinates[0]--;
 			}
 
-			if (this.direction === SNAKE.DIRECTION_LEFT) {
+			if (this.direction === DIRECTION.LEFT) {
 				coordinates[1]++;
 			}
 
-			if (this.direction === SNAKE.DIRECTION_RIGHT) {
+			if (this.direction === DIRECTION.RIGHT) {
 				coordinates[1]--;
 			}
 
@@ -164,19 +165,19 @@ export default {
 		guessHeadNewPosition() {
 			let coordinates = this.snakeHead.split(",");
 
-			if (this.direction === SNAKE.DIRECTION_UP) {
+			if (this.direction === DIRECTION.UP) {
 				coordinates[0]--;
 			}
 
-			if (this.direction === SNAKE.DIRECTION_DOWN) {
+			if (this.direction === DIRECTION.DOWN) {
 				coordinates[0]++;
 			}
 
-			if (this.direction === SNAKE.DIRECTION_LEFT) {
+			if (this.direction === DIRECTION.LEFT) {
 				coordinates[1]--;
 			}
 
-			if (this.direction === SNAKE.DIRECTION_RIGHT) {
+			if (this.direction === DIRECTION.RIGHT) {
 				coordinates[1]++;
 			}
 
@@ -207,20 +208,20 @@ export default {
 			return tiles;
 		},
 		listenKeysPressed(e) {
-			if (e.keyCode === KEYS.UP && this.direction !== SNAKE.DIRECTION_DOWN) {
-				this.direction = SNAKE.DIRECTION_UP;
+			if (e.keyCode === KEYS.UP && this.direction !== DIRECTION.DOWN) {
+				this.direction = DIRECTION.UP;
 			}
 
-			if (e.keyCode === KEYS.DOWN && this.direction !== SNAKE.DIRECTION_UP) {
-				this.direction = SNAKE.DIRECTION_DOWN;
+			if (e.keyCode === KEYS.DOWN && this.direction !== DIRECTION.UP) {
+				this.direction = DIRECTION.DOWN;
 			}
 
-			if (e.keyCode === KEYS.LEFT && this.direction !== SNAKE.DIRECTION_RIGHT) {
-				this.direction = SNAKE.DIRECTION_LEFT;
+			if (e.keyCode === KEYS.LEFT && this.direction !== DIRECTION.RIGHT) {
+				this.direction = DIRECTION.LEFT;
 			}
 
-			if (e.keyCode === KEYS.RIGHT && this.direction !== SNAKE.DIRECTION_LEFT) {
-				this.direction = SNAKE.DIRECTION_RIGHT;
+			if (e.keyCode === KEYS.RIGHT && this.direction !== DIRECTION.LEFT) {
+				this.direction = DIRECTION.RIGHT;
 			}
 
 			if (e.keyCode === KEYS.SPACE && ! this.gameRunning) {
