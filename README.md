@@ -12,3 +12,5 @@ pull request you want 🙂
 - [ ] Add score board with local storage
 - [ ] Add Webpack, postCSS or whatever it's needed to add Tailwind
 - [ ] Center the board properly
+- [ ] Add retro sounds when moving, eating and game over
+- [ ] Add button for resetting the game
