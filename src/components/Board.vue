@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="grid">
 			<div v-for='(value, index) in tiles' :key='index'>
-				<tile :tile='value' :cords='index' :class='{ clearfix : index.match(/.*,0/) !== null }'/>
+				<square :content='value' :class='{ clearfix : index.match(/.*,0/) !== null }'/>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Tile from "./Tile.vue";
+import Square from "./Square.vue";
 import SNAKE from "./../config/snake.js";
 import KEYS from "./../config/keys.js";
 import DIRECTION from "./../config/direction.js";
@@ -25,11 +25,17 @@ import DIRECTION from "./../config/direction.js";
 export default {
 	name: "Grid",
 	components: {
-		Tile
+		Square
 	},
 	props: {
-		width: Number,
-		height: Number
+		width: {
+			type: Number,
+			default: 20
+		},
+		height: {
+			type: Number,
+			default: 20
+		}
 	},
 	data() {
 		return {
@@ -57,9 +63,13 @@ export default {
 				return;
 			}
 
+			this.message = null;
+			
+			this.score = 0;
+
 			this.resetSnake();
 
-			this.tiles[this.getFoodRandomCords()] = SNAKE.FOOD;
+			this.tiles[this.getFoodRandomCoords()] = SNAKE.FOOD;
 
 			this.run();	
 		},
@@ -97,24 +107,24 @@ export default {
 
 			this.tiles[this.snakeHead] = SNAKE.HEAD;
 
-			this.snakeBody = this.snakeBody.map(cords => {
-				let newCords = nextBodyPosition;
+			this.snakeBody = this.snakeBody.map(coords => {
+				let newCoords = nextBodyPosition;
 
-				this.tiles[newCords] = SNAKE.BODY;
+				this.tiles[newCoords] = SNAKE.BODY;
 
-				nextBodyPosition = cords;
+				nextBodyPosition = coords;
 
-				return newCords;
+				return newCoords;
 			});
 		},
-		isCollision(cords) {
-			return this.isSelfCollision(cords) || this.isBorderCollision(cords);
+		isCollision(coords) {
+			return this.isSelfCollision(coords) || this.isBorderCollision(coords);
 		},
-		isSelfCollision(cords) {
-			return this.tiles[cords] === SNAKE.BODY;
+		isSelfCollision(coords) {
+			return this.tiles[coords] === SNAKE.BODY;
 		},
-		isBorderCollision(cords) {
-			let coordinates = cords.split(',');
+		isBorderCollision(coords) {
+			let coordinates = coords.split(',');
 			
 			return coordinates[0] < 0
 				|| coordinates[1] < 0
@@ -128,23 +138,23 @@ export default {
 
 			this.score++;
 
-			this.snakeBody.push(this.newBodyCords());
+			this.snakeBody.push(this.newBodyCoords());
 
-			this.tiles[this.getFoodRandomCords()] = SNAKE.FOOD;
+			this.tiles[this.getFoodRandomCoords()] = SNAKE.FOOD;
 
 			this.increaseSpeed();
 		},
-		getFoodRandomCords() {
-			let randomCords = [
+		getFoodRandomCoords() {
+			let randomCoords = [
 				Math.floor(Math.random() * (this.width - 1)),
 				Math.floor(Math.random() * (this.height - 1))
 			].join(",");
 
-			if (this.tiles[randomCords] !== SNAKE.NONE) {
-				return this.getFoodRandomCords();
+			if (this.tiles[randomCoords] !== SNAKE.NONE) {
+				return this.getFoodRandomCoords();
 			}
 
-			return randomCords;
+			return randomCoords;
 			
 		},
 		increaseSpeed() {
@@ -152,7 +162,7 @@ export default {
 
 			this.run();
 		},
-		newBodyCords() {
+		newBodyCoords() {
 			let coordinates = this.snakeBody[this.snakeBody.length - 1].split(
 				","
 			);
@@ -199,15 +209,15 @@ export default {
 		cleanSnake() {
 			this.tiles[this.snakeHead] = SNAKE.NONE;
 
-			this.snakeBody.forEach(cords => {
-				this.tiles[cords] = SNAKE.NONE;
+			this.snakeBody.forEach(coords => {
+				this.tiles[coords] = SNAKE.NONE;
 			});
 		},
 		resetSnake() {
 			this.tiles[SNAKE.HEAD_START] = SNAKE.HEAD;
 
-			SNAKE.BODY_START.forEach(cords => {
-				this.tiles[cords] = SNAKE.BODY;
+			SNAKE.BODY_START.forEach(coords => {
+				this.tiles[coords] = SNAKE.BODY;
 			});
 		},
 		resetGrid() {
