@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <h1>Snake Arena 2000</h1>
-    <grid :width="25" :height="25" />
+    <h2>Snake game made with Vue</h2>
+    <grid :width="20" :height="20" />
   </div>
 </template>
 
@@ -23,6 +23,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: 60px auto 0 auto;
+  margin: 30px auto 0 auto;
 }
 </style>

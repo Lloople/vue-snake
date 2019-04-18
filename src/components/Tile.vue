@@ -30,19 +30,20 @@ div {
 	width: 20px;
 	height: 20px;
 	float: left;
-	background: grey;
+	background: rgb(196, 183, 183);
 	margin: 1px;
+	border-radius: 2px;
 }
 
 .body {
-	background: blue;
+	background: rgb(84, 84, 218);
 }
 
 .head {
-	background: red;
+	background: rgb(221, 91, 91);
 }
 
 .food {
-    background: yellow;
+    background: rgb(192, 152, 23);
 }
 </style>

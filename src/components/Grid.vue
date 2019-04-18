@@ -1,11 +1,12 @@
 <template>
-	<div class='flex-1 align-middle content-center w-1/2 mx-auto'>
-		<div>
+	<div class="container">
+		<div class="grid">
 			<div v-for='(value, index) in tiles' :key='index'>
 				<tile :tile='value' :cords='index' :class='{ clearfix : index.match(/.*,0/) !== null }'/>
 			</div>
 		</div>
-		<div>
+		<div class="clearfix"></div>
+		<div class="panel">
 			<button
 				v-on:click='start'
 				class='btn p-4 m-4 rounded-lg bg-green-light focus:outline-none'
@@ -250,22 +251,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-	margin: 40px 0 0;
-}
-ul {
-	list-style-type: none;
-	padding: 0;
-}
-li {
-	display: inline-block;
-	margin: 0 10px;
-}
-a {
-	color: #42b983;
-}
-
-.clearfix {
-	clear: left;
-}
+	.clearfix {
+		clear: left;
+	}
+	.container {
+		flex: content;
+		flex-direction: column;
+		align-content: center;
+		width: 600px;
+		margin: 0 auto;
+		text-align: center;
+		margin-bottom: 20px;
+	}
+	.grid {
+		text-align: center;
+		margin: 0 auto;
+		display: block;
+	}
 </style>
