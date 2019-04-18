@@ -11,6 +11,7 @@
 				class='btn p-4 m-4 rounded-lg bg-green-light focus:outline-none'
 			>{{ gameRunning !== null ? 'PLAYING...' : 'START GAME' }}</button>
 			<h2>SCORE: {{ score }}</h2>
+			<h2 v-show="message !== null">{{ message }}</h2>
 		</div>
 	</div>
 </template>
@@ -38,6 +39,7 @@ export default {
 			snakeHead: SNAKE.HEAD_START,
 			snakeBody: SNAKE.BODY_START,
 			score: 0,
+			message: null
 		};
 	},
 	created() {
@@ -48,7 +50,7 @@ export default {
 		this.resetSnake();
 	},
 	beforeDestroy() {
-		clearInterval(this.gameRunning);
+		this.stop();
 	},
 	methods: {
 		start() {
@@ -58,22 +60,33 @@ export default {
 
 			this.placeRandomFood();
 
-			let counter = 0;
-
 			this.gameRunning = setInterval(() => {
 				this.move();
-
-				counter++;
 			}, this.speed);
 		},
+		stop() {
+			clearInterval(this.gameRunning);
+			this.gameRunning = null;
+		},
+		gameOver() {
+			this.stop();
+			this.message = `GAME OVER`;
+		},
 		move() {
-			this.cleanSnake();
-
 			let nextBodyPosition = this.snakeHead;
+			let nextHeadPosition = this.guessHeadNewPosition();
 
-			this.snakeHead = this.guessHeadNewPosition();
+			if (this.isCollision(nextHeadPosition)) {
+				this.gameOver();
+
+				return;
+			}
+
+			this.snakeHead = nextHeadPosition;
 
 			this.eat();
+
+			this.cleanSnake();
 
 			this.tiles[this.snakeHead] = SNAKE.HEAD;
 
@@ -86,6 +99,20 @@ export default {
 
 				return newCords;
 			});
+		},
+		isCollision(cords) {
+			return this.isSelfCollision(cords) || this.isBorderCollision(cords);
+		},
+		isSelfCollision(cords) {
+			return this.tiles[cords] === SNAKE.BODY;
+		},
+		isBorderCollision(cords) {
+			let coordinates = cords.split(',');
+			
+			return coordinates[0] < 0 
+				|| coordinates[1] < 0
+				|| coordinates[0] > this.width
+				|| coordinates[1] > this.height;
 		},
 		eat() {
 			if (this.tiles[this.snakeHead] !== SNAKE.FOOD) {
