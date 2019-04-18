@@ -31,7 +31,7 @@ export default {
 	data() {
 		return {
 			gameRunning: null,
-			speed: 50,
+			speed: 200,
 			tiles: this.resetGrid(),
 			direction: SNAKE.DIRECTION_RIGHT,
 			snakeHead: SNAKE.HEAD_START,
@@ -90,7 +90,7 @@ export default {
 				return;
 			}
 
-			this.snakeBody.push = this.newBodyCords();
+			this.snakeBody.push(this.newBodyCords());
 
 			this.placeRandomFood();
 		},
