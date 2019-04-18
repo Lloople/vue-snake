@@ -66,6 +66,7 @@ export default {
 		},
 		stop() {
 			clearInterval(this.gameRunning);
+
 			this.gameRunning = null;
 		},
 		gameOver() {
@@ -109,10 +110,10 @@ export default {
 		isBorderCollision(cords) {
 			let coordinates = cords.split(',');
 			
-			return coordinates[0] < 0 
+			return coordinates[0] < 0
 				|| coordinates[1] < 0
-				|| coordinates[0] > this.width
-				|| coordinates[1] > this.height;
+				|| coordinates[0] == this.width
+				|| coordinates[1] == this.height;
 		},
 		eat() {
 			if (this.tiles[this.snakeHead] !== SNAKE.FOOD) {
