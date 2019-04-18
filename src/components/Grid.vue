@@ -10,6 +10,7 @@
 				v-on:click='start'
 				class='btn p-4 m-4 rounded-lg bg-green-light focus:outline-none'
 			>{{ gameRunning !== null ? 'PLAYING...' : 'START GAME' }}</button>
+			<h2>SCORE: {{ score }}</h2>
 		</div>
 	</div>
 </template>
@@ -35,7 +36,8 @@ export default {
 			tiles: this.resetGrid(),
 			direction: SNAKE.DIRECTION_RIGHT,
 			snakeHead: SNAKE.HEAD_START,
-			snakeBody: SNAKE.BODY_START
+			snakeBody: SNAKE.BODY_START,
+			score: 0,
 		};
 	},
 	created() {
@@ -89,6 +91,8 @@ export default {
 			if (this.tiles[this.snakeHead] !== SNAKE.FOOD) {
 				return;
 			}
+
+			this.score++;
 
 			this.snakeBody.push(this.newBodyCords());
 
