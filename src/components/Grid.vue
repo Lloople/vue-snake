@@ -59,7 +59,15 @@ export default {
 				return;
 			}
 
-			this.placeRandomFood();
+			this.cleanSnake();
+			this.cleanSnake();
+
+			this.tiles[this.getFoodRandomCords()] = SNAKE.FOOD;
+
+			this.run();	
+		},
+		run() {
+			this.stop();
 
 			this.gameRunning = setInterval(() => {
 				this.move();
@@ -125,19 +133,27 @@ export default {
 
 			this.snakeBody.push(this.newBodyCords());
 
-			this.placeRandomFood();
+			this.tiles[this.getFoodRandomCords()] = SNAKE.FOOD;
+
+			this.increaseSpeed();
 		},
-		placeRandomFood() {
+		getFoodRandomCords() {
 			let randomCords = [
 				Math.floor(Math.random() * (this.width - 1)),
 				Math.floor(Math.random() * (this.height - 1))
 			].join(",");
 
 			if (this.tiles[randomCords] !== SNAKE.NONE) {
-				randomCords = this.placeRandomFood();
+				return this.getFoodRandomCords();
 			}
 
-			this.tiles[randomCords] = SNAKE.FOOD;
+			return randomCords;
+			
+		},
+		increaseSpeed() {
+			this.speed -= this.speed * 0.10;
+
+			this.run();
 		},
 		newBodyCords() {
 			let coordinates = this.snakeBody[this.snakeBody.length - 1].split(
