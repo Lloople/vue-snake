@@ -6,3 +6,4 @@ Vue.config.productionTip = false
 new Vue({
   render: h => h(Board),
 }).$mount('#grid')
+
