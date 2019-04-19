@@ -5,10 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev": "parcel public/index.html",
+    "watch": "parcel watch index.html",
+    "production": "parcel build index.html"
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "parcel-bundler": "^1.12.3",
     "vue": "^2.6.6"
   },
   "devDependencies": {
@@ -43,5 +47,8 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "alias": {
+    "vue": "./node_modules/vue/dist/vue.common.js"
+  }
 }
