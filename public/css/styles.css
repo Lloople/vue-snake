@@ -1,0 +1,69 @@
+* {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin: 30px auto 0 auto;
+}
+
+.clearfix {
+    clear: left;
+}
+
+.container {
+    margin: 0 auto 20px auto;
+    text-align: center;
+}
+
+.grid {
+    width: 450px;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+}
+
+.btn {
+    font-weight: bold;
+    font-size: 22px;
+    margin-top: 10px;
+    padding: 14px;
+    background: #ebd3c0;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0px 6px #e6c1a4;
+    user-select: none;
+    border: none;
+}
+
+.btn-pressed {
+    box-shadow: none;
+    background: #e6c1a4;
+    top: 6px;
+    position: relative;
+}
+
+h2 {
+    font-weight: normal;
+}
+
+div.square {
+    width: 20px;
+    height: 20px;
+    float: left;
+    background: rgb(196, 183, 183);
+    margin: 0.5px;
+    border-radius: 2px;
+}
+
+.square.body {
+    background: rgb(76, 185, 109);
+}
+
+.square.head {
+    background: rgb(16, 88, 22);
+}
+
+.square.food {
+    background: rgb(187, 59, 27);
+}

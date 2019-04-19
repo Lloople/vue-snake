@@ -1,5 +1,5 @@
 <template>
-	<div :class="contentClass"></div>
+	<div class="square" :class="contentClass"></div>
 </template>
 
 <script>
@@ -29,26 +29,3 @@ export default {
 	}
 };
 </script>
-
-<style scoped>
-	div {
-		width: 20px;
-		height: 20px;
-		float: left;
-		background: rgb(196, 183, 183);
-		margin: 0.5px;
-		border-radius: 2px;
-	}
-
-	.body {
-		background: rgb(76, 185, 109);
-	}
-
-	.head {
-		background: rgb(16, 88, 22);
-	}
-
-	.food {
-		background: rgb(187, 59, 27);
-	}
-</style>
