@@ -206,19 +206,19 @@ export default {
 			let coordinates = this.snakeHead.split(",");
 
 			if (this.direction === DIRECTION.UP) {
-				coordinates[0]--;
-			}
-
-			if (this.direction === DIRECTION.DOWN) {
-				coordinates[0]++;
-			}
-
-			if (this.direction === DIRECTION.LEFT) {
 				coordinates[1]--;
 			}
 
-			if (this.direction === DIRECTION.RIGHT) {
+			if (this.direction === DIRECTION.DOWN) {
 				coordinates[1]++;
+			}
+
+			if (this.direction === DIRECTION.LEFT) {
+				coordinates[0]--;
+			}
+
+			if (this.direction === DIRECTION.RIGHT) {
+				coordinates[0]++;
 			}
 
 			return coordinates.join(",");
