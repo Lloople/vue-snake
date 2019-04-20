@@ -1,8 +1,8 @@
 <template>
 	<div class="container">
 		<div class="grid">
-			<div v-for='(value, index) in tiles' :key='index'>
-				<square :content='value' :class='{ clearfix : index.match(/.*,0/) !== null }'/>
+			<div v-for='(value, index) in squares' :key='index'>
+				<square :coords='index' :content='value' :class='{ clearfix : index.match(/^0,.*/) !== null }'/>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -41,7 +41,7 @@ export default {
 		return {
 			gameRunning: null,
 			speed: 500,
-			tiles: this.resetGrid(),
+			squares: this.resetGrid(),
 			direction: DIRECTION.RIGHT,
 			snakeHead: SNAKE.HEAD_START,
 			snakeBody: SNAKE.BODY_START,
@@ -69,7 +69,7 @@ export default {
 
 			this.resetSnake();
 
-			this.tiles[this.getFoodRandomCoords()] = SNAKE.FOOD;
+			this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
 
 			this.run();	
 		},
@@ -86,10 +86,12 @@ export default {
 			this.gameRunning = null;
 		},
 		gameOver() {
+			// Missing test
 			this.stop();
 			this.message = `GAME OVER`;
 		},
 		move() {
+			// Missing test
 			let nextBodyPosition = this.snakeHead;
 			let nextHeadPosition = this.guessHeadNewPosition();
 
@@ -105,12 +107,12 @@ export default {
 
 			this.cleanSnake();
 
-			this.tiles[this.snakeHead] = SNAKE.HEAD;
+			this.squares[this.snakeHead] = SNAKE.HEAD;
 
 			this.snakeBody = this.snakeBody.map(coords => {
 				let newCoords = nextBodyPosition;
 
-				this.tiles[newCoords] = SNAKE.BODY;
+				this.squares[newCoords] = SNAKE.BODY;
 
 				nextBodyPosition = coords;
 
@@ -121,7 +123,7 @@ export default {
 			return this.isSelfCollision(coords) || this.isBorderCollision(coords);
 		},
 		isSelfCollision(coords) {
-			return this.tiles[coords] === SNAKE.BODY;
+			return this.squares[coords] === SNAKE.BODY;
 		},
 		isBorderCollision(coords) {
 			let coordinates = coords.split(',');
@@ -132,17 +134,23 @@ export default {
 				|| coordinates[1] == this.height;
 		},
 		eat() {
-			if (this.tiles[this.snakeHead] !== SNAKE.FOOD) {
+			// Missing test
+			if (this.squares[this.snakeHead] !== SNAKE.FOOD) {
 				return;
 			}
 
-			this.score++;
+			this.addScorePoint();
 
 			this.snakeBody.push(this.newBodyCoords());
 
-			this.tiles[this.getFoodRandomCoords()] = SNAKE.FOOD;
+			this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
 
 			this.increaseSpeed();
+		},
+		addScorePoint() {
+
+			this.score++;
+
 		},
 		getFoodRandomCoords() {
 			let randomCoords = [
@@ -150,7 +158,7 @@ export default {
 				Math.floor(Math.random() * (this.height - 1))
 			].join(",");
 
-			if (this.tiles[randomCoords] !== SNAKE.NONE) {
+			if (this.squares[randomCoords] !== SNAKE.NONE) {
 				return this.getFoodRandomCoords();
 			}
 
@@ -163,29 +171,38 @@ export default {
 			this.run();
 		},
 		newBodyCoords() {
+			// Missing test
+			
+			/**
+			 * This code doesn't work if the snake has an angle on it's body.
+			 * Is it worth to attach the new body piece to the correct location
+			 * since it would be updated soon?
+			 */
+
 			let coordinates = this.snakeBody[this.snakeBody.length - 1].split(
 				","
 			);
 
 			if (this.direction === DIRECTION.UP) {
-				coordinates[0]++;
-			}
-
-			if (this.direction === DIRECTION.DOWN) {
-				coordinates[0]--;
-			}
-
-			if (this.direction === DIRECTION.LEFT) {
 				coordinates[1]++;
 			}
 
-			if (this.direction === DIRECTION.RIGHT) {
+			if (this.direction === DIRECTION.DOWN) {
 				coordinates[1]--;
+			}
+
+			if (this.direction === DIRECTION.LEFT) {
+				coordinates[0]++;
+			}
+
+			if (this.direction === DIRECTION.RIGHT) {
+				coordinates[0]--;
 			}
 
 			return coordinates.join(",");
 		},
 		guessHeadNewPosition() {
+			// Missing test
 			let coordinates = this.snakeHead.split(",");
 
 			if (this.direction === DIRECTION.UP) {
@@ -207,30 +224,33 @@ export default {
 			return coordinates.join(",");
 		},
 		cleanSnake() {
-			this.tiles[this.snakeHead] = SNAKE.NONE;
+			// Missing test
+			this.squares[this.snakeHead] = SNAKE.NONE;
 
 			this.snakeBody.forEach(coords => {
-				this.tiles[coords] = SNAKE.NONE;
+				this.squares[coords] = SNAKE.NONE;
 			});
 		},
 		resetSnake() {
-			this.tiles[SNAKE.HEAD_START] = SNAKE.HEAD;
+			// Missing test
+			this.squares[SNAKE.HEAD_START] = SNAKE.HEAD;
 
 			SNAKE.BODY_START.forEach(coords => {
-				this.tiles[coords] = SNAKE.BODY;
+				this.squares[coords] = SNAKE.BODY;
 			});
 		},
 		resetGrid() {
-			let tiles = {};
-			[...Array(this.width).keys()].forEach(x => {
-				[...Array(this.height).keys()].forEach(y => {
-					tiles[x + "," + y] = SNAKE.NONE;
+			let squares = {};
+			[...Array(this.height).keys()].forEach(y => {
+				[...Array(this.width).keys()].forEach(x => {
+					squares[x + "," + y] = SNAKE.NONE;
 				});
 			});
 
-			return tiles;
+			return squares;
 		},
 		listenKeysPressed(e) {
+			// Missing test
 			if (e.keyCode === KEYS.UP && this.direction !== DIRECTION.DOWN) {
 				this.direction = DIRECTION.UP;
 			}

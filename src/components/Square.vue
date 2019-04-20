@@ -1,5 +1,5 @@
 <template>
-	<div class="square" :class="contentClass"></div>
+	<div :data-coords='coords' class="square" :class="contentClass"></div>
 </template>
 
 <script>
@@ -8,7 +8,8 @@ import SNAKE from "./../config/snake.js";
 export default {
 	name: "Square",
 	props: {
-		content: Number
+		content: Number,
+		coords: String
 	},
 	computed: {
 		contentClass() {

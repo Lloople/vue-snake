@@ -4,13 +4,11 @@ import SNAKE from '@/config/snake.js';
 
 describe('Square.vue', () => {
 
-  let square;
+  test('can determine it\'s computed class', () => {
 
-  beforeEach(() => {
-    square = shallowMount(Square);
-  });
+    const square = shallowMount(Square);
 
-  it('can determine its computed class', () => {
+    expect(square.vm.contentClass).toBe(null);
 
     square.setProps({ content: SNAKE.HEAD });
     expect(square.vm.contentClass).toBe('head');
