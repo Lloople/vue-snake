@@ -8,9 +8,12 @@ pull request you want 🙂
 
 # Road Map
 
-- [ ] Add tests for the components
+- [x] Add tests for the components
+- [ ] Finish the test suite for the current code
 - [ ] Add score board with local storage
 - [ ] Add button for resetting the game
-- [ ] Add Webpack, postCSS or whatever it's needed to add Tailwind
+- [X] Add Webpack, postCSS or whatever it's needed to add Tailwind
+- [ ] Add TailwindCSS
 - [ ] Center the board properly
+- [ ] Remove vertical scrolling with overflow
 - [ ] Add retro sounds when moving, eating and game over
