@@ -5,10 +5,13 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "npx webpack --config webpack.config.js",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test": "jest"
   },
   "dependencies": {
+    "@vue/test-utils": "^1.0.0-beta.29",
     "core-js": "^2.6.5",
+    "jest": "^24.7.1",
     "vue": "^2.6.6"
   },
   "devDependencies": {
@@ -16,8 +19,10 @@
     "@vue/cli-plugin-eslint": "^3.5.0",
     "@vue/cli-service": "^3.5.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.7.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "vue-jest": "^3.0.4",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.30.0",
@@ -46,5 +51,19 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      ".*\\.(vue)$": "vue-jest",
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    },
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1"
+    }
+  }
 }
