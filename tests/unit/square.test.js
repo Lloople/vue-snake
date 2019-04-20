@@ -4,21 +4,21 @@ import SNAKE from '@/config/snake.js';
 
 describe('Square.vue', () => {
 
-  let target;
+  let square;
 
   beforeEach(() => {
-    target = shallowMount(Square);
+    square = shallowMount(Square);
   });
 
   it('can determine its computed class', () => {
 
-    target.setProps({ content: SNAKE.HEAD });
-    expect(target.vm.contentClass).toBe('head');
+    square.setProps({ content: SNAKE.HEAD });
+    expect(square.vm.contentClass).toBe('head');
 
-    target.setProps({ content: SNAKE.BODY });
-    expect(target.vm.contentClass).toBe('body');
+    square.setProps({ content: SNAKE.BODY });
+    expect(square.vm.contentClass).toBe('body');
 
-    target.setProps({ content: SNAKE.FOOD });
-    expect(target.vm.contentClass).toBe('food');
+    square.setProps({ content: SNAKE.FOOD });
+    expect(square.vm.contentClass).toBe('food');
   })
 })
