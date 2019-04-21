@@ -1,276 +1,242 @@
 <template>
-	<div class="container">
-		<div class="grid">
-			<div v-for='(value, index) in squares' :key='index'>
-				<square :coords='index' :content='value' :class='{ clearfix : index.match(/^0,.*/) !== null }'/>
-			</div>
-		</div>
-		<div class="clearfix"></div>
-		<div class="panel">
-			<button v-on:click='start' class="btn" :class="{ 'btn-pressed' : gameRunning }">
-				PLAY
-			</button>
-			<h2>SCORE: {{ score }}</h2>
-			<h2 v-show="message !== null">{{ message }}</h2>
-		</div>
-	</div>
+    <div class="container">
+        <div class="grid">
+            <div v-for='(value, index) in squares' :key='index'>
+                <square :coords='index' :content='value' :class='{ clearfix : index.match(/^0,.*/) !== null }'/>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="panel">
+            <button v-on:click='start' class="btn" :class="{ 'btn-pressed' : gameRunning }">
+                PLAY
+            </button>
+            <h2>SCORE: {{ score }}</h2>
+            <h2 v-show="isGameOver">🐍 GAME OVER 💀</h2>
+        </div>
+    </div>
 </template>
 
 <script>
-import Square from "./Square.vue";
-import SNAKE from "./../config/snake.js";
-import KEYS from "./../config/keys.js";
-import DIRECTION from "./../config/direction.js";
+    import Square from "./Square.vue";
+    import SNAKE from "./../config/snake.js";
+    import KEYS from "./../config/keys.js";
+    import DIRECTION from "./../config/direction.js";
 
-export default {
-	name: "Grid",
-	components: {
-		Square
-	},
-	props: {
-		width: {
-			type: Number,
-			default: 20
-		},
-		height: {
-			type: Number,
-			default: 20
-		}
-	},
-	data() {
-		return {
-			gameRunning: null,
-			speed: 500,
-			squares: this.resetGrid(),
-			direction: DIRECTION.RIGHT,
-			snakeHead: SNAKE.HEAD_START,
-			snakeBody: SNAKE.BODY_START,
-			score: 0,
-			message: null
-		};
-	},
-	created() {
-		window.addEventListener("keyup", this.listenKeysPressed);
+    export default {
+        name: "Grid",
+        components: {
+            Square
+        },
+        props: {
+            width: {
+                type: Number,
+                default: 20
+            },
+            height: {
+                type: Number,
+                default: 20
+            }
+        },
+        data() {
+            return {
+                gameRunning: null,
+                speed: 500,
+                squares: this.resetGrid(),
+                direction: DIRECTION.RIGHT,
+                snakeHead: SNAKE.HEAD_START,
+                snakeBody: SNAKE.BODY_START,
+                score: 0,
+                isGameOver: false
+            };
+        },
+        created() {
+            window.addEventListener("keyup", this.listenKeysPressed);
 
-		this.resetSnake();
-	},
-	beforeDestroy() {
-		this.stop();
-	},
-	methods: {
-		start() {
-			if (this.gameRunning !== null) {
-				return;
-			}
+            this.resetSnake();
+        },
+        beforeDestroy() {
+            this.stop();
+        },
+        methods: {
+            start() {
+                if (this.gameRunning !== null) {
+                    return;
+                }
 
-			this.message = null;
-			
-			this.score = 0;
+                this.isGameOver = false;
 
-			this.resetSnake();
+                this.score = 0;
 
-			this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
+                this.resetSnake();
 
-			this.run();	
-		},
-		run() {
-			this.stop();
+                this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
 
-			this.gameRunning = setInterval(() => {
-				this.move();
-			}, this.speed);
-		},
-		stop() {
-			clearInterval(this.gameRunning);
+                this.run();
+            },
+            run() {
+                this.stop();
 
-			this.gameRunning = null;
-		},
-		gameOver() {
-			// Missing test
-			this.stop();
-			this.message = `GAME OVER`;
-		},
-		move() {
-			// Missing test
-			let nextBodyPosition = this.snakeHead;
-			let nextHeadPosition = this.guessHeadNewPosition();
+                this.gameRunning = setInterval(() => {
+                    this.move();
+                }, this.speed);
+            },
+            stop() {
+                clearInterval(this.gameRunning);
 
-			if (this.isCollision(nextHeadPosition)) {
-				this.gameOver();
+                this.gameRunning = null;
+            },
+            gameOver() {
+                this.stop();
 
-				return;
-			}
+                this.isGameOver = true;
+            },
+            move() {
+                // Missing test
+                let nextBodyPosition = this.snakeHead;
+                let nextHeadPosition = this.guessHeadNewPosition();
 
-			this.snakeHead = nextHeadPosition;
+                if (this.isCollision(nextHeadPosition)) {
+                    this.gameOver();
 
-			this.eat();
+                    return;
+                }
 
-			this.cleanSnake();
+                this.snakeHead = nextHeadPosition;
 
-			this.squares[this.snakeHead] = SNAKE.HEAD;
+                this.eat();
 
-			this.snakeBody = this.snakeBody.map(coords => {
-				let newCoords = nextBodyPosition;
+                this.cleanSnake();
 
-				this.squares[newCoords] = SNAKE.BODY;
+                this.squares[this.snakeHead] = SNAKE.HEAD;
 
-				nextBodyPosition = coords;
+                this.snakeBody = this.snakeBody.map(coords => {
+                    let newCoords = nextBodyPosition;
 
-				return newCoords;
-			});
-		},
-		isCollision(coords) {
-			return this.isSelfCollision(coords) || this.isBorderCollision(coords);
-		},
-		isSelfCollision(coords) {
-			return this.squares[coords] === SNAKE.BODY;
-		},
-		isBorderCollision(coords) {
-			let coordinates = coords.split(',');
-			
-			return coordinates[0] < 0
-				|| coordinates[1] < 0
-				|| coordinates[0] == this.width
-				|| coordinates[1] == this.height;
-		},
-		eat() {
-			// Missing test
-			if (this.squares[this.snakeHead] !== SNAKE.FOOD) {
-				return;
-			}
+                    this.squares[newCoords] = SNAKE.BODY;
 
-			this.addScorePoint();
+                    nextBodyPosition = coords;
 
-			this.snakeBody.push(this.newBodyCoords());
+                    return newCoords;
+                });
+            },
+            isCollision(coords) {
+                return this.isSelfCollision(coords) || this.isBorderCollision(coords);
+            },
+            isSelfCollision(coords) {
+                return this.squares[coords] === SNAKE.BODY;
+            },
+            isBorderCollision(coords) {
+                let coordinates = coords.split(',');
 
-			this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
+                return coordinates[0] < 0
+                    || coordinates[1] < 0
+                    || coordinates[0] == this.width
+                    || coordinates[1] == this.height;
+            },
+            eat() {
+                // Missing test
+                if (this.squares[this.snakeHead] !== SNAKE.FOOD) {
+                    return;
+                }
 
-			this.increaseSpeed();
-		},
-		addScorePoint() {
+                this.addScorePoint();
 
-			this.score++;
+                this.snakeBody.push('0,0');
 
-		},
-		getFoodRandomCoords() {
-			let randomCoords = [
-				Math.floor(Math.random() * (this.width - 1)),
-				Math.floor(Math.random() * (this.height - 1))
-			].join(",");
+                this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
 
-			if (this.squares[randomCoords] !== SNAKE.NONE) {
-				return this.getFoodRandomCoords();
-			}
+                this.increaseSpeed();
+            },
+            addScorePoint() {
 
-			return randomCoords;
-			
-		},
-		increaseSpeed() {
-			this.speed -= this.speed * 0.10;
+                this.score++;
 
-			this.run();
-		},
-		newBodyCoords() {
-			// Missing test
-			
-			/**
-			 * This code doesn't work if the snake has an angle on it's body.
-			 * Is it worth to attach the new body piece to the correct location
-			 * since it would be updated soon?
-			 */
+            },
+            getFoodRandomCoords() {
+                let randomCoords = [
+                    Math.floor(Math.random() * (this.width - 1)),
+                    Math.floor(Math.random() * (this.height - 1))
+                ].join(",");
 
-			let coordinates = this.snakeBody[this.snakeBody.length - 1].split(
-				","
-			);
+                if (this.squares[randomCoords] !== SNAKE.NONE) {
+                    return this.getFoodRandomCoords();
+                }
 
-			if (this.direction === DIRECTION.UP) {
-				coordinates[1]++;
-			}
+                return randomCoords;
 
-			if (this.direction === DIRECTION.DOWN) {
-				coordinates[1]--;
-			}
+            },
+            increaseSpeed() {
+                this.speed -= this.speed * 0.10;
 
-			if (this.direction === DIRECTION.LEFT) {
-				coordinates[0]++;
-			}
+                this.run();
+            },
+            guessHeadNewPosition() {
+                let coordinates = this.snakeHead.split(",");
 
-			if (this.direction === DIRECTION.RIGHT) {
-				coordinates[0]--;
-			}
+                if (this.direction === DIRECTION.UP) {
+                    coordinates[1]--;
+                }
 
-			return coordinates.join(",");
-		},
-		guessHeadNewPosition() {
-			// Missing test
-			let coordinates = this.snakeHead.split(",");
+                if (this.direction === DIRECTION.DOWN) {
+                    coordinates[1]++;
+                }
 
-			if (this.direction === DIRECTION.UP) {
-				coordinates[1]--;
-			}
+                if (this.direction === DIRECTION.LEFT) {
+                    coordinates[0]--;
+                }
 
-			if (this.direction === DIRECTION.DOWN) {
-				coordinates[1]++;
-			}
+                if (this.direction === DIRECTION.RIGHT) {
+                    coordinates[0]++;
+                }
 
-			if (this.direction === DIRECTION.LEFT) {
-				coordinates[0]--;
-			}
+                return coordinates.join(",");
+            },
+            cleanSnake() {
+                this.squares[this.snakeHead] = SNAKE.NONE;
 
-			if (this.direction === DIRECTION.RIGHT) {
-				coordinates[0]++;
-			}
+                this.snakeBody.forEach(coords => {
+                    this.squares[coords] = SNAKE.NONE;
+                });
+            },
+            resetSnake() {
+                this.squares[SNAKE.HEAD_START] = SNAKE.HEAD;
 
-			return coordinates.join(",");
-		},
-		cleanSnake() {
-			// Missing test
-			this.squares[this.snakeHead] = SNAKE.NONE;
+                SNAKE.BODY_START.forEach(coords => {
+                    this.squares[coords] = SNAKE.BODY;
+                });
+            },
+            resetGrid() {
+                let squares = {};
+                [...Array(this.height).keys()].forEach(y => {
+                    [...Array(this.width).keys()].forEach(x => {
+                        squares[x + "," + y] = SNAKE.NONE;
+                    });
+                });
 
-			this.snakeBody.forEach(coords => {
-				this.squares[coords] = SNAKE.NONE;
-			});
-		},
-		resetSnake() {
-			// Missing test
-			this.squares[SNAKE.HEAD_START] = SNAKE.HEAD;
+                return squares;
+            },
+            listenKeysPressed(e) {
+                // Missing test
+                if (e.keyCode === KEYS.UP && this.direction !== DIRECTION.DOWN) {
+                    this.direction = DIRECTION.UP;
+                }
 
-			SNAKE.BODY_START.forEach(coords => {
-				this.squares[coords] = SNAKE.BODY;
-			});
-		},
-		resetGrid() {
-			let squares = {};
-			[...Array(this.height).keys()].forEach(y => {
-				[...Array(this.width).keys()].forEach(x => {
-					squares[x + "," + y] = SNAKE.NONE;
-				});
-			});
+                if (e.keyCode === KEYS.DOWN && this.direction !== DIRECTION.UP) {
+                    this.direction = DIRECTION.DOWN;
+                }
 
-			return squares;
-		},
-		listenKeysPressed(e) {
-			// Missing test
-			if (e.keyCode === KEYS.UP && this.direction !== DIRECTION.DOWN) {
-				this.direction = DIRECTION.UP;
-			}
+                if (e.keyCode === KEYS.LEFT && this.direction !== DIRECTION.RIGHT) {
+                    this.direction = DIRECTION.LEFT;
+                }
 
-			if (e.keyCode === KEYS.DOWN && this.direction !== DIRECTION.UP) {
-				this.direction = DIRECTION.DOWN;
-			}
+                if (e.keyCode === KEYS.RIGHT && this.direction !== DIRECTION.LEFT) {
+                    this.direction = DIRECTION.RIGHT;
+                }
 
-			if (e.keyCode === KEYS.LEFT && this.direction !== DIRECTION.RIGHT) {
-				this.direction = DIRECTION.LEFT;
-			}
-
-			if (e.keyCode === KEYS.RIGHT && this.direction !== DIRECTION.LEFT) {
-				this.direction = DIRECTION.RIGHT;
-			}
-
-			if (e.keyCode === KEYS.SPACE && ! this.gameRunning) {
-				this.start();
-			}
-		}
-	}
-};
+                if (e.keyCode === KEYS.SPACE && !this.gameRunning) {
+                    this.start();
+                }
+            }
+        }
+    };
 </script>
