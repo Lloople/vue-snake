@@ -126,4 +126,24 @@ describe('Board', () => {
         });
     });
 
+    test('it moves all the body parts in the correct direction', () => {
+        const board = shallowMount(Board);
+
+        // Remove the default snake from the board.
+        board.vm.cleanSnake();
+
+        board.setData({
+            direction: DIRECTION.UP,
+            snakeHead: '5,5',
+            snakeBody: ['5,6', '5,7', '4,7']
+        });
+
+        board.vm.move();
+
+        expect(board.vm.snakeHead).toBe('5,4');
+        expect(board.vm.snakeBody[0]).toBe('5,5');
+        expect(board.vm.snakeBody[1]).toBe('5,6');
+        expect(board.vm.snakeBody[2]).toBe('5,7');
+
+    });
 });

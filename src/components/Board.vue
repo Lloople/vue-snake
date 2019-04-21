@@ -91,7 +91,6 @@
                 this.isGameOver = true;
             },
             move() {
-                // Missing test
                 let nextBodyPosition = this.snakeHead;
                 let nextHeadPosition = this.guessHeadNewPosition();
 
