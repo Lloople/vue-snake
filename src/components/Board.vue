@@ -60,6 +60,8 @@
         },
         methods: {
             start() {
+                this.playSound('game_start');
+
                 if (this.gameRunning !== null) {
                     return;
                 }
@@ -87,6 +89,8 @@
                 this.gameRunning = null;
             },
             gameOver() {
+                this.playSound('game_over');
+
                 this.stop();
 
                 this.isGameOver = true;
@@ -140,6 +144,8 @@
                 if (this.squares[this.snakeHead] !== SNAKE.FOOD) {
                     return;
                 }
+
+                this.playSound('eat');
 
                 this.addScorePoint();
 
@@ -243,6 +249,10 @@
                     this.start();
                 }
                 this.canChangeDirection = false;
+            },
+            playSound(sound) {
+                let audio = new Audio(`sounds/${sound}.wav`);
+                audio.play();
             }
         }
     };

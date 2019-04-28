@@ -16,5 +16,5 @@ pull request you want 🙂
 - [ ] Add TailwindCSS
 - [ ] Center the board properly
 - [X] Remove vertical scrolling with overflow
-- [ ] Add retro sounds when moving, eating and game over
+- [X] Add retro sounds when moving, eating and game over
 - [X] Speed system needs improvements, it gets impossible to play after 25 points
