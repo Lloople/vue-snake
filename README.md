@@ -15,6 +15,6 @@ pull request you want 🙂
 - [X] Add Webpack, postCSS or whatever it's needed to add Tailwind
 - [ ] Add TailwindCSS
 - [ ] Center the board properly
-- [ ] Remove vertical scrolling with overflow
+- [X] Remove vertical scrolling with overflow
 - [ ] Add retro sounds when moving, eating and game over
 - [ ] Speed system needs improvements, it gets impossible to play after 25 points

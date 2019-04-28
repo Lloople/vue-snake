@@ -7,6 +7,9 @@
     margin: 30px auto 0 auto;
 }
 
+body {
+    overflow: hidden;
+}
 .clearfix {
     clear: left;
 }
@@ -28,17 +31,17 @@
     font-size: 22px;
     margin-top: 10px;
     padding: 14px;
-    background: #ebd3c0;
+    background: #dae1e7;
     border-radius: 4px;
     cursor: pointer;
-    box-shadow: 0px 6px #e6c1a4;
+    box-shadow: 0px 6px #a4abb1;
     user-select: none;
     border: none;
 }
 
 .btn-pressed {
     box-shadow: none;
-    background: #e6c1a4;
+    background: #a4abb1;
     top: 6px;
     position: relative;
 }
@@ -51,7 +54,7 @@ div.square {
     width: 20px;
     height: 20px;
     float: left;
-    background: rgb(196, 183, 183);
+    background: #dae1e7;
     margin: 0.5px;
     border-radius: 2px;
 }
