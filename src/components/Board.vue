@@ -165,6 +165,10 @@
 
             },
             increaseSpeed() {
+                if (this.speed <= 90) {
+                    return;
+                }
+
                 this.speed -= this.speed * 0.10;
 
                 this.run();

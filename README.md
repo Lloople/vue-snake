@@ -17,4 +17,4 @@ pull request you want 🙂
 - [ ] Center the board properly
 - [X] Remove vertical scrolling with overflow
 - [ ] Add retro sounds when moving, eating and game over
-- [ ] Speed system needs improvements, it gets impossible to play after 25 points
+- [X] Speed system needs improvements, it gets impossible to play after 25 points
