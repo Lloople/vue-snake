@@ -46,7 +46,8 @@
                 snakeHead: SNAKE.HEAD_START,
                 snakeBody: SNAKE.BODY_START,
                 score: 0,
-                isGameOver: false
+                isGameOver: false,
+                canChangeDirection: true
             };
         },
         created() {
@@ -117,6 +118,8 @@
 
                     return newCoords;
                 });
+
+                this.canChangeDirection = true;
             },
             isCollision(coords) {
                 return this.isSelfCollision(coords) || this.isBorderCollision(coords);
@@ -220,25 +223,26 @@
             },
             listenKeysPressed(e) {
                 // Missing test
-                if (e.keyCode === KEYS.UP && this.direction !== DIRECTION.DOWN) {
+                if (e.which === KEYS.UP && this.direction !== DIRECTION.DOWN && this.canChangeDirection) {
                     this.direction = DIRECTION.UP;
                 }
 
-                if (e.keyCode === KEYS.DOWN && this.direction !== DIRECTION.UP) {
+                if (e.which === KEYS.DOWN && this.direction !== DIRECTION.UP && this.canChangeDirection) {
                     this.direction = DIRECTION.DOWN;
                 }
 
-                if (e.keyCode === KEYS.LEFT && this.direction !== DIRECTION.RIGHT) {
+                if (e.which === KEYS.LEFT && this.direction !== DIRECTION.RIGHT && this.canChangeDirection) {
                     this.direction = DIRECTION.LEFT;
                 }
 
-                if (e.keyCode === KEYS.RIGHT && this.direction !== DIRECTION.LEFT) {
+                if (e.which === KEYS.RIGHT && this.direction !== DIRECTION.LEFT && this.canChangeDirection) {
                     this.direction = DIRECTION.RIGHT;
                 }
 
-                if (e.keyCode === KEYS.SPACE && !this.gameRunning) {
+                if (e.which === KEYS.SPACE && !this.gameRunning) {
                     this.start();
                 }
+                this.canChangeDirection = false;
             }
         }
     };
