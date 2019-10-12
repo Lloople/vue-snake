@@ -70,6 +70,14 @@
 
                 this.score = 0;
 
+                this.speed = 500;
+
+                // Resets grid, snake position, and snake movement variables back to their defaults
+                this.squares = this.resetGrid();
+                this.direction = DIRECTION.RIGHT;
+                this.snakeHead = SNAKE.HEAD_START;
+                this.snakeBody = SNAKE.BODY_START;
+                this.canChangeDirection = true;
                 this.resetSnake();
 
                 this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
