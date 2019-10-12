@@ -7,7 +7,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="panel">
-            <button v-on:click='start' class="btn" :class="{ 'btn-pressed' : gameRunning }">
+            <button v-on:click='start' class="btn" :class="{ 'btn-pressed' : gameRunning }" :disabled="gameRunning">
                 PLAY
             </button>
             <h2>SCORE: {{ score }}</h2>
