@@ -52,7 +52,11 @@
         },
         created() {
             window.addEventListener("keyup", this.listenKeysPressed);
-
+            this.audioMap = {
+                gameStart: new Audio('sounds/game_start.wav'),
+                gameOver: new Audio('sounds/game_over.wav'),
+                eat: new Audio('sounds/eat.wav')
+            };
             this.resetSnake();
         },
         beforeDestroy() {
@@ -60,7 +64,7 @@
         },
         methods: {
             start() {
-                this.playSound('game_start');
+                this.playSound('gameStart');
 
                 if (this.gameRunning !== null) {
                     return;
@@ -89,7 +93,7 @@
                 this.gameRunning = null;
             },
             gameOver() {
-                this.playSound('game_over');
+                this.playSound('gameOver');
 
                 this.stop();
 
@@ -251,8 +255,9 @@
                 this.canChangeDirection = false;
             },
             playSound(sound) {
-                let audio = new Audio(`sounds/${sound}.wav`);
-                audio.play();
+                if (this.audioMap[sound]) {
+                    this.audioMap[sound].play();
+                }
             }
         }
     };
