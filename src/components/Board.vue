@@ -15,7 +15,44 @@
         </div>
     </div>
 </template>
+<style>
+    .clearfix {
+        clear: left;
+    }
 
+    .grid {
+        width: 450px;
+        text-align: center;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .btn {
+        font-weight: bold;
+        font-size: 22px;
+        margin-top: 10px;
+        padding: 14px;
+        background: #dae1e7;
+        border-radius: 4px;
+        cursor: pointer;
+        box-shadow: 0px 6px #a4abb1;
+        user-select: none;
+        border: none;
+    }
+
+    .container {
+        margin: 0 auto 20px auto;
+        text-align: center;
+    }
+
+    .btn-pressed {
+        box-shadow: none;
+        background: #a4abb1;
+        top: 6px;
+        position: relative;
+    }
+
+</style>
 <script>
     import Square from "./Square.vue";
     import SNAKE from "./../config/snake.js";
@@ -51,7 +88,7 @@
             };
         },
         created() {
-            window.addEventListener("keyup", this.listenKeysPressed);
+            window.addEventListener("keydown", this.listenKeysPressed);
             this.audioMap = {
                 gameStart: new Audio('sounds/game_start.wav'),
                 gameOver: new Audio('sounds/game_over.wav'),
