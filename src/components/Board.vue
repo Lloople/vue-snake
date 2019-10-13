@@ -10,6 +10,11 @@
             <button v-on:click='start' class="btn" :class="{ 'btn-pressed' : gameRunning }" :disabled="gameRunning">
                 PLAY
             </button>
+
+            <button v-on:click='reset' class="btn" :class="{ 'btn-pressed' : !gameRunning }" :disabled="!gameRunning">
+                RESET
+            </button>
+
             <h2>SCORE: {{ score }}</h2>
             <h2 v-show="isGameOver">🐍 GAME OVER 💀</h2>
         </div>
@@ -30,7 +35,7 @@
     .btn {
         font-weight: bold;
         font-size: 22px;
-        margin-top: 10px;
+        margin: 10px 3px;
         padding: 14px;
         background: #dae1e7;
         border-radius: 4px;
@@ -102,27 +107,19 @@
         methods: {
             start() {
                 this.playSound('gameStart');
-
                 if (this.gameRunning !== null) {
                     return;
                 }
 
-                this.isGameOver = false;
-
-                this.score = 0;
-
-                this.speed = 500;
-
-                // Resets grid, snake position, and snake movement variables back to their defaults
-                this.squares = this.resetGrid();
-                this.direction = DIRECTION.RIGHT;
-                this.snakeHead = SNAKE.HEAD_START;
-                this.snakeBody = SNAKE.BODY_START;
-                this.canChangeDirection = true;
-                this.resetSnake();
-
-                this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
-
+                this.resetGame();
+                this.run();
+            },
+            reset(){
+                this.playSound('gameStart');
+                if (this.gameRunning == null || this.gameRunning === false) {
+                    return;
+                }
+                this.resetGame();
                 this.run();
             },
             run() {
@@ -303,6 +300,24 @@
                 if (this.audioMap[sound]) {
                     this.audioMap[sound].play();
                 }
+            },
+            //Completely resets the game (score, scake position and food position)
+            resetGame(){
+                this.isGameOver = false;
+
+                this.score = 0;
+
+                this.speed = 500;
+
+                // Resets grid, snake position, and snake movement variables back to their defaults
+                this.squares = this.resetGrid();
+                this.direction = DIRECTION.RIGHT;
+                this.snakeHead = SNAKE.HEAD_START;
+                this.snakeBody = SNAKE.BODY_START;
+                this.canChangeDirection = true;
+                this.resetSnake();
+
+                this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
             }
         }
     };
