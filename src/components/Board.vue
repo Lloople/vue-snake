@@ -211,16 +211,15 @@
             },
             getFoodRandomCoords() {
                 let randomCoords = [
-                    Math.floor(Math.random() * (this.width - 1)),
-                    Math.floor(Math.random() * (this.height - 1))
-                ].join(",");
+                    Math.floor(Math.random() * this.width),
+                    Math.floor(Math.random() * this.height)
+                ];
 
-                if (this.squares[randomCoords] !== SNAKE.NONE) {
+                if (this.squares[randomCoords.toString()] !== SNAKE.NONE || randomCoords[0] === this.width || randomCoords[1] === this.height) {
                     return this.getFoodRandomCoords();
                 }
 
-                return randomCoords;
-
+                return randomCoords.toString();
             },
             increaseSpeed() {
                 if (this.speed <= 90) {
