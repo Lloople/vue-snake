@@ -34,6 +34,8 @@ describe('Board', () => {
 
     test('increases score on eat', () => {
 
+        window.HTMLMediaElement.prototype.play = () => { /* disable audio for testing purposes */ };
+
         const board = shallowMount(Board);
 
 
