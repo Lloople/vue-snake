@@ -10,63 +10,7 @@
 body {
     overflow: hidden;
 }
-.clearfix {
-    clear: left;
-}
-
-.container {
-    margin: 0 auto 20px auto;
-    text-align: center;
-}
-
-.grid {
-    width: 450px;
-    text-align: center;
-    margin: 0 auto;
-    display: block;
-}
-
-.btn {
-    font-weight: bold;
-    font-size: 22px;
-    margin-top: 10px;
-    padding: 14px;
-    background: #dae1e7;
-    border-radius: 4px;
-    cursor: pointer;
-    box-shadow: 0px 6px #a4abb1;
-    user-select: none;
-    border: none;
-}
-
-.btn-pressed {
-    box-shadow: none;
-    background: #a4abb1;
-    top: 6px;
-    position: relative;
-}
 
 h2 {
     font-weight: normal;
-}
-
-div.square {
-    width: 20px;
-    height: 20px;
-    float: left;
-    background: #dae1e7;
-    margin: 0.5px;
-    border-radius: 2px;
-}
-
-.square.body {
-    background: rgb(76, 185, 109);
-}
-
-.square.head {
-    background: rgb(16, 88, 22);
-}
-
-.square.food {
-    background: rgb(187, 59, 27);
 }
