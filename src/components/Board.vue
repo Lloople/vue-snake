@@ -88,7 +88,7 @@
             };
         },
         created() {
-            window.addEventListener("keyup", this.listenKeysPressed);
+            window.addEventListener("keydown", this.listenKeysPressed);
             this.audioMap = {
                 gameStart: new Audio('sounds/game_start.wav'),
                 gameOver: new Audio('sounds/game_over.wav'),
