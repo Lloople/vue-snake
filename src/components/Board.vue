@@ -174,11 +174,11 @@
             },
             getFoodRandomCoords() {
                 let randomCoords = [
-                    Math.floor(Math.random() * (this.width - 1)),
-                    Math.floor(Math.random() * (this.height - 1))
+                    Math.floor(Math.random() * this.width),
+                    Math.floor(Math.random() * this.height)
                 ].join(",");
 
-                if (this.squares[randomCoords] !== SNAKE.NONE) {
+                if (this.squares[randomCoords] !== SNAKE.NONE || randomCoords.includes(this.width + ",") || randomCoords.includes("," + this.height)) {
                     return this.getFoodRandomCoords();
                 }
 
