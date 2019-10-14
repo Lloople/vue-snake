@@ -11,10 +11,6 @@
                 PLAY
             </button>
 
-            <button v-on:click='reset' class="btn" :class="{ 'btn-pressed' : !gameRunning }" :disabled="!gameRunning">
-                RESET
-            </button>
-
             <h2>SCORE: {{ score }}</h2>
             <h2 v-show="isGameOver">🐍 GAME OVER 💀</h2>
         </div>
@@ -111,14 +107,6 @@
                     return;
                 }
 
-                this.resetGame();
-                this.run();
-            },
-            reset(){
-                this.playSound('gameStart');
-                if (this.gameRunning == null || this.gameRunning === false) {
-                    return;
-                }
                 this.resetGame();
                 this.run();
             },
@@ -301,7 +289,6 @@
                     this.audioMap[sound].play();
                 }
             },
-            //Completely resets the game (score, scake position and food position)
             resetGame(){
                 this.isGameOver = false;
 
@@ -309,7 +296,6 @@
 
                 this.speed = 500;
 
-                // Resets grid, snake position, and snake movement variables back to their defaults
                 this.squares = this.resetGrid();
                 this.direction = DIRECTION.RIGHT;
                 this.snakeHead = SNAKE.HEAD_START;
