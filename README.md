@@ -21,10 +21,10 @@ pull request you want 🙂
 - [x] Add tests for the components
 - [ ] Finish the test suite for the current code
 - [ ] Add score board with local storage
-- [ ] Add button for resetting the game
+- [X] Add button for resetting the game
 - [X] Add Webpack, postCSS or whatever it's needed to add Tailwind
-- [ ] Add TailwindCSS
-- [ ] Center the board properly
+- [X] Add TailwindCSS
+- [X] Center the board properly
 - [X] Remove vertical scrolling with overflow
 - [X] Add retro sounds when moving, eating and game over
 - [X] Speed system needs improvements, it gets impossible to play after 25 points
