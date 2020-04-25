@@ -85,7 +85,8 @@
                 snakeBody: SNAKE.BODY_START,
                 score: 0,
                 isGameOver: false,
-                canChangeDirection: true
+                canChangeDirection: true,
+                scoreboard: [] // TO-DO: Show scoreboard in a pop-up or something
             };
         },
         created() {
@@ -96,6 +97,7 @@
                 eat: new Audio('sounds/eat.wav')
             };
             this.resetSnake();
+            this.refreshScoreboard();
         },
         beforeDestroy() {
             this.stop();
@@ -128,6 +130,8 @@
                 this.stop();
 
                 this.isGameOver = true;
+
+                this.publishScore();
             },
             move() {
                 let nextBodyPosition = this.snakeHead;
@@ -303,7 +307,22 @@
                 this.resetSnake();
 
                 this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
+            },
+            publishScore() {
+                if (this.score <= this.scoreboard[this.scoreboard - 1]) {
+                    return;
+                }
+
+                localStorage.username = window.prompt('Please, enter your username so we can publish your score', localStorage.username);
+
+                // TO-DO: send request to store new score (localStorage.username, this.score);
+
+                this.refreshScoreboard();
+            },
+            refreshScoreboard() {
+                // To-DO: this.scoreboard = some query to some server...
             }
+            
         }
     };
 </script>
