@@ -59,6 +59,7 @@
     import SNAKE from "./../config/snake.js";
     import KEYS from "./../config/keys.js";
     import DIRECTION from "./../config/direction.js";
+    import { db } from "./../config/firebase.js";
 
     export default {
         name: "Grid",
@@ -86,18 +87,19 @@
                 score: 0,
                 isGameOver: false,
                 canChangeDirection: true,
-                scoreboard: [] // TO-DO: Show scoreboard in a pop-up or something
+                scoreboard: []
             };
         },
         created() {
             window.addEventListener("keydown", this.listenKeysPressed);
+            
             this.audioMap = {
                 gameStart: new Audio('sounds/game_start.wav'),
                 gameOver: new Audio('sounds/game_over.wav'),
                 eat: new Audio('sounds/eat.wav')
             };
+            
             this.resetSnake();
-            this.refreshScoreboard();
         },
         beforeDestroy() {
             this.stop();
@@ -315,14 +317,14 @@
 
                 localStorage.username = window.prompt('Please, enter your username so we can publish your score', localStorage.username);
 
-                // TO-DO: send request to store new score (localStorage.username, this.score);
-
-                this.refreshScoreboard();
-            },
-            refreshScoreboard() {
-                // To-DO: this.scoreboard = some query to some server...
+                db.collection('scoreboard').add({
+                    username: localStorage.username,
+                    score: this.score
+                })
             }
-            
+        },
+        firestore: {
+            scoreboard: db.collection('scoreboard').orderBy('score', 'desc').limit(100)
         }
     };
 </script>
