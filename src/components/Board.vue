@@ -1,59 +1,48 @@
 <template>
     <div class="container">
-        <div class="grid">
+        <div class="board-grid text-center mx-auto block" style="width: 450px">
             <div v-for='(value, index) in squares' :key='index'>
-                <square :coords='index' :content='value' :class='{ clearfix : index.match(/^0,.*/) !== null }'/>
+                <square :coords='index' :content='value' :class='{ "clear-left" : index.match(/^0,.*/) !== null }'/>
             </div>
         </div>
         <div class="clearfix"></div>
         <div class="panel">
-            <button v-on:click='start' class="btn" :class="{ 'btn-pressed' : gameRunning }" :disabled="gameRunning">
+            <button v-on:click='start' class="select-none uppercase font-bold bg-gray-300 font-bold py-2 px-4 border-b-4 hover:border-b-2 hover:border-t-2 border-gray-500 rounded" :class='{ "bg-gray-500" : gameRunning }' :disabled="gameRunning">
                 PLAY
             </button>
+            <br>
+            <div class="mt-4">
+                <a class=" mt-8" href="https://github.com/lloople/vue-snake" target="_blank">GitHub</a>&nbsp;
+                <a href="#" v-on:click='showScoreboard = ! showScoreboard'>Scoreboard</a>
 
-            <h2>SCORE: {{ score }}</h2>
-            <h2 v-show="isGameOver">🐍 GAME OVER 💀</h2>
+            </div>
+        
+            <h2 class="mt-4">SCORE: {{ score }}</h2>
+            <h2 class="mt-4 text-xl font-bold" v-show="isGameOver">🐍 GAME OVER 💀</h2>
+
+            <div v-show='showScoreboard' class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-red-600" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                Scoreboard
+                            </h3>
+                            <ul class="mt-2">
+                                <li v-for="(score, index) in scoreboard" :key="index">{{ score.username }}: {{ score.score }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
-<style>
-    .clearfix {
-        clear: left;
-    }
 
-    .grid {
-        width: 450px;
-        text-align: center;
-        margin: 0 auto;
-        display: block;
-    }
-
-    .btn {
-        font-weight: bold;
-        font-size: 22px;
-        margin-top: 10px;
-        padding: 14px;
-        background: #dae1e7;
-        border-radius: 4px;
-        cursor: pointer;
-        box-shadow: 0px 6px #a4abb1;
-        user-select: none;
-        border: none;
-    }
-
-    .container {
-        margin: 0 auto 20px auto;
-        text-align: center;
-    }
-
-    .btn-pressed {
-        box-shadow: none;
-        background: #a4abb1;
-        top: 6px;
-        position: relative;
-    }
-
-</style>
 <script>
     import Square from "./Square.vue";
     import SNAKE from "./../config/snake.js";
@@ -87,7 +76,8 @@
                 score: 0,
                 isGameOver: false,
                 canChangeDirection: true,
-                scoreboard: []
+                scoreboard: [],
+                showScoreboard: false
             };
         },
         created() {

@@ -11,7 +11,8 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "firebase": "^7.14.2",
-    "vue": "^2.6.10",
+    "tailwindcss": "^1.4.4",
+    "vue": "^2.6.11",
     "vuefire": "^2.2.2"
   },
   "devDependencies": {
@@ -22,10 +23,10 @@
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-core": "7.0.0-bridge.0",
-    "babel-eslint": "^10.0.1",
-    "babel-jest": "^25.4.0",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^25.5.1",
     "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.5.21"
+    "eslint-plugin-vue": "^5.2.3",
+    "vue-template-compiler": "^2.6.11"
   }
 }
