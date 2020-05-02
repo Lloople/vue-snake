@@ -133,7 +133,7 @@
 
                 this.isGameOver = true;
 
-                this.publishScore();
+                setTimeout(() => { this.publishScore(); }, 250);
             },
             move() {
                 let nextBodyPosition = this.snakeHead;
@@ -187,18 +187,13 @@
 
                 this.playSound('eat');
 
-                this.addScorePoint();
+                this.score++;
 
                 this.snakeBody.push('0,0');
 
                 this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
 
                 this.increaseSpeed();
-            },
-            addScorePoint() {
-
-                this.score++;
-
             },
             getFoodRandomCoords() {
                 let randomCoords = [
@@ -287,6 +282,9 @@
                 if (e.which === KEYS.SPACE && !this.gameRunning) {
                     this.start();
                 }
+
+                // TODO: add keys for pause and resume with space and letter P
+
                 this.canChangeDirection = false;
             },
             playSound(sound) {
@@ -310,14 +308,14 @@
 
                 this.squares[this.getFoodRandomCoords()] = SNAKE.FOOD;
             },
-            publishScore() {
+            async publishScore() {
                 if (this.score <= this.scoreboard[this.scoreboard - 1]) {
                     return;
                 }
 
                 localStorage.username = window.prompt('Please, enter your username so we can publish your score', localStorage.username);
 
-                db.collection('scoreboard').add({
+                await db.collection('scoreboard').add({
                     username: localStorage.username,
                     score: this.score
                 })
