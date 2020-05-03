@@ -1,0 +1,39 @@
+<template>
+    <div v-show='showScoreboard' class="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center">
+        <div class="fixed inset-0 transition-opacity mt-0">
+            <div class="absolute inset-0 bg-gray-500 opacity-75 mt-0"></div>
+        </div>
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+            <div class="bg-white px-2 pb-4 sm:p-6 sm:pl-0 sm:pt-0 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                    <div class="sm:mt-0 sm:ml-8 text-left">
+                        <h3 class="uppercase text-xl font-medium text-gray-900 text-left">
+                            Scoreboard
+                        </h3>
+                        <ul class="mt-2">
+                            <li v-for="(score, index) in scores" :key="index" class="text-left">{{ score.username }}: {{ score.score }}</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+                    <button type="button" v-on:click="$emit('close-scoreboard')" class="button button-gray">
+                    Close
+                    </button>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "Scoreboard",
+        props: {
+            scores: Array
+        },
+    };
+</script>
