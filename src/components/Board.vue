@@ -18,7 +18,7 @@
                 <a class="m-8 ml-0 button bg-gray-700 text-white border-gray-900" href="https://github.com/lloople/vue-snake" target="_blank">GitHub</a>&nbsp;
                 <span class="button cursor-pointer bg-green-500 text-white border-green-700" :class='{ "bg-green-700": showScoreboard }' v-on:click='showScoreboard = true'>Results</span>
             </div>
-            <scoreboard v-show="showScoreboard" v-on:close-scoreboard="showScoreboard = false" :scores="scoreboard"/>
+            <scoreboard  :visible="showScoreboard" v-on:close-scoreboard="showScoreboard = false" :scores="scoreboard"/>
         </div>
     </div>
 </template>
@@ -286,6 +286,10 @@
                 }
 
                 localStorage.username = window.prompt('Please, enter your username so we can publish your score', localStorage.username);
+
+                if (localStorage.username === null) {
+                    return;
+                }
 
                 await db.collection('scoreboard').add({
                     username: localStorage.username,
