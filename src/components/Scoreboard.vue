@@ -5,14 +5,25 @@
         </div>
         <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
             <div class="bg-white px-2 pb-4 sm:p-6 sm:pl-0 sm:pt-0 sm:pb-4">
-                <div class="sm:flex sm:items-start">
+                <div class="pt-6">
                     <div class="sm:mt-0 sm:ml-8 text-left">
                         <h3 class="uppercase text-xl font-medium text-gray-900 text-left">
                             Scoreboard
                         </h3>
-                        <ul class="mt-2">
-                            <li v-for="(score, index) in scores" :key="index" class="text-left">{{ score.username }}: {{ score.score }}</li>
-                        </ul>
+                        <table class="mt-2 w-full">
+                            <thead>
+                                <tr>
+                                    <th class="text-right pr-4">Score</th>
+                                    <th class="text-left pl-4">Username</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(score, index) in scores" :key="index">
+                                    <td class="text-right pr-4">{{ score.score }}</td>
+                                    <td class="text-left pl-4 py-1">{{ score.username }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 
